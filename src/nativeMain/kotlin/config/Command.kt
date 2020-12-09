@@ -1,6 +1,6 @@
 package config
 
-enum class Command(
+internal enum class Command(
   val longName: String,
   val shortName: String,
   val description: String,

@@ -1,8 +1,8 @@
 package config
 
-typealias ArgumentValues = Map<Argument, String>
+internal typealias ArgumentValues = Map<Argument, String>
 
-enum class Argument(
+internal enum class Argument(
   val longName: String,
   val description: String,
 ) {
@@ -26,5 +26,10 @@ enum class Argument(
     fun firstByName(text: String) = all.firstOrNull { it.longName == text }
 
   }
+
+  data class PaddingArgs(
+    val times: Int,
+    val pad: String,
+  )
 
 }

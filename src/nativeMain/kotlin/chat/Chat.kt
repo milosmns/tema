@@ -85,9 +85,10 @@ internal object Chat {
 
   fun printTotalFailure() = "\nFatal error, forced to stop.".pwi().ln()
 
-  fun printNoContentError(error: NoContentError) = ("\nNo content provided for operation '${error.command.longName}'.\n" +
-    "Make sure that content is provided as the last parameter, " +
-    "and use quotations (\") if your content includes spaces.").pwi().ln()
+  fun printNoContentError(error: NoContentError) =
+    ("\nNo content provided for operation '${error.command.longName}'.\n" +
+      "Make sure that content is provided as the last parameter, " +
+      "and use quotations (\") if your content includes spaces.").pwi().ln()
 
   fun printInvalidArgsError(error: InvalidModifierArgsError) = ("\nInvalid arguments for modifier " +
     "'${error.modifier.longName}' on operation '${error.command.longName}'.\n" +
@@ -97,6 +98,8 @@ internal object Chat {
     "for operation '${error.command.longName}'.").pwi().ln()
 
   fun printUnknownCommandError(error: UnknownCommandError) = "\nUnknown command '${error.command}'.".pwi().ln()
+
+  fun printCommandMisconfiguration(command: Command) = "\n Missing configuration for '${command.longName}'.".pwi().ln()
 
   // endregion
 

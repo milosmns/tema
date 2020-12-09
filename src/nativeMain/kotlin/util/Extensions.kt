@@ -2,7 +2,7 @@ package util
 
 import config.Modifier
 
-val String.Companion.space: String get() = " "
-val String.Companion.empty: String get() = ""
+internal val String.Companion.space: String get() = " "
+internal val String.Companion.empty: String get() = ""
 
-fun String.withoutModSymbols() = replace(Modifier.SYMBOL, "")
+internal fun String.withoutModSymbols() = replace(Modifier.SYMBOL, "")
