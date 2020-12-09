@@ -4,9 +4,9 @@ import config.Argument.PAD
 import config.Argument.TIMES
 import util.withoutModSymbols
 
-typealias ModifierValues = Map<Modifier, ArgumentValues>
+internal typealias ModifierValues = Map<Modifier, ArgumentValues>
 
-enum class Modifier(
+internal enum class Modifier(
   val longName: String,
   val shortName: String,
   val description: String,

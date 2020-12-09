@@ -2,6 +2,7 @@ import chat.Chat
 import cli.ActionResolver
 import config.Command
 import config.Modifier
+import processing.ProcessorConfig
 
 // Entry point
 
@@ -52,8 +53,19 @@ fun main(args: Array<String>) {
           indent = 0
         )
         else -> {
-          // TODO actually implement this
-          println("Resolved actions = $result")
+          ProcessorConfig.getProcessorForCommand(result.command)
+            ?.let {
+              try {
+                it.process(
+                  modifierValues = result.modifierValues,
+                  content = result.content,
+                )
+              } catch (error: Throwable) {
+                error.message
+              }
+            }
+            ?.also { println(it) }
+            ?: Chat.printCommandMisconfiguration(result.command)
         }
       }
     }
