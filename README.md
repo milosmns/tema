@@ -4,7 +4,7 @@
 #### ⏳ A Kotlin/Native sandbox
 
 ![Build Status](https://img.shields.io/github/workflow/status/milosmns/tema/Build%20Release?label=Build&logo=github)
-![Code Size](https://img.shields.io/github/languages/code-size/milosms/tema?label=Code%20Size&logo=github&style=flat-square)
+![Code Size](https://img.shields.io/github/languages/code-size/milosmns/tema?label=Code%20Size&logo=github&style=flat-square)
 ![License](https://img.shields.io/github/license/milosmns/tema?label=License)
 
 Text Manipulator (TEMA) helps you... well, manipulate text. 😃
