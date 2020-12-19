@@ -29,7 +29,7 @@ repositories {
 }
 
 group = "me.angrybyte.kotlin"
-version = "0.2.0"
+version = "1.0.0"
 val artifact = "tema"
 val sourceName = "native"
 val author = "milosmns"
