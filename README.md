@@ -8,9 +8,10 @@
 ![License](https://img.shields.io/github/license/milosmns/tema?label=License)
 
 Text Manipulator (TEMA) helps you... well, manipulate text. 😃
-It's main purpose is to serve as a working Kotlin/Native showcase app.
 
-It supports some basic operations like
+Its main purpose is to serve as a working Kotlin/Native showcase app.
+
+TEMA supports some basic operations like
 
 - Reversing text
     - `"I want an apple."` becomes `".elppa na tnaw I"`
