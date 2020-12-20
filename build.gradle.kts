@@ -72,10 +72,23 @@ kotlin {
   @Suppress("UNUSED_VARIABLE") // it's all used
   sourceSets {
 
-    val nativeMain by getting
+    val commonMain by getting
+
+    val commonTest by getting {
+      dependsOn(commonMain)
+      dependencies {
+        implementation(kotlin("test-common"))
+        implementation(kotlin("test-annotations-common"))
+      }
+    }
+
+    val nativeMain by getting {
+      dependsOn(commonMain)
+    }
 
     val nativeTest by getting {
       dependsOn(nativeMain)
+      dependsOn(commonTest)
       dependencies {
         implementation(kotlin("test-common"))
         implementation(kotlin("test-annotations-common"))
