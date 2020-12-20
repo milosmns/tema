@@ -36,7 +36,7 @@ repositories {
 object Project {
   val group = Env.get("PROJECT_GROUP", default = "me.angrybyte.kotlin")
   val artifact = Env.get("PROJECT_ARTIFACT", default = "tema")
-  val version = Env.get("PROJECT_VERSION", default = "1.1.0")
+  val version = Env.get("PROJECT_VERSION", default = "1.2.0")
   val author = Env.get("PROJECT_AUTHOR", default = "milosmns")
 
   object Location {
