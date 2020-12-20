@@ -36,7 +36,7 @@ repositories {
 object Project {
   val group = Env.get("PROJECT_GROUP", default = "me.angrybyte.kotlin")
   val artifact = Env.get("PROJECT_ARTIFACT", default = "tema")
-  val version = Env.get("PROJECT_VERSION", default = "1.1.0")
+  val version = Env.get("PROJECT_VERSION", default = "1.2.0")
   val author = Env.get("PROJECT_AUTHOR", default = "milosmns")
 
   object Location {
@@ -72,10 +72,23 @@ kotlin {
   @Suppress("UNUSED_VARIABLE") // it's all used
   sourceSets {
 
-    val nativeMain by getting
+    val commonMain by getting
+
+    val commonTest by getting {
+      dependsOn(commonMain)
+      dependencies {
+        implementation(kotlin("test-common"))
+        implementation(kotlin("test-annotations-common"))
+      }
+    }
+
+    val nativeMain by getting {
+      dependsOn(commonMain)
+    }
 
     val nativeTest by getting {
       dependsOn(nativeMain)
+      dependsOn(commonTest)
       dependencies {
         implementation(kotlin("test-common"))
         implementation(kotlin("test-annotations-common"))
