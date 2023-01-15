@@ -13,7 +13,7 @@ internal class ActionResolverTest {
 
   // region Help
 
-  @Test fun `command: help, short`() {
+  @Test fun `command - help - short`() {
     val result = ActionResolver.resolve(
       "tema h"
     )
@@ -28,7 +28,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `command: help, long`() {
+  @Test fun `command - help - long`() {
     val result = ActionResolver.resolve(
       "tema help"
     )
@@ -43,7 +43,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `modifier: help, short`() {
+  @Test fun `modifier - help - short`() {
     val result = ActionResolver.resolve(
       "tema -h"
     )
@@ -58,7 +58,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `modifier: help, long`() {
+  @Test fun `modifier - help - long`() {
     val result = ActionResolver.resolve(
       "tema --help"
     )
@@ -77,7 +77,7 @@ internal class ActionResolverTest {
 
   // region Reverse
 
-  @Test fun `command: reverse, short`() {
+  @Test fun `command - reverse - short`() {
     val result = ActionResolver.resolve(
       "tema r abc"
     )
@@ -92,7 +92,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `command: reverse, long`() {
+  @Test fun `command - reverse - long`() {
     val result = ActionResolver.resolve(
       "tema reverse abc"
     )
@@ -107,7 +107,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `command: reverse, short | modifier: help, short`() {
+  @Test fun `command - reverse - short WITH modifier - help - short`() {
     val result = ActionResolver.resolve(
       "tema r -h"
     )
@@ -122,7 +122,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `command: reverse, short | modifier: help, long`() {
+  @Test fun `command - reverse - short WITH modifier - help - long`() {
     val result = ActionResolver.resolve(
       "tema r --help"
     )
@@ -137,7 +137,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `command: reverse, long | modifier: help, short`() {
+  @Test fun `command - reverse - long WITH modifier - help - short`() {
     val result = ActionResolver.resolve(
       "tema reverse -h"
     )
@@ -152,7 +152,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `command: reverse, long | modifier: help, long`() {
+  @Test fun `command - reverse - long WITH modifier - help - long`() {
     val result = ActionResolver.resolve(
       "tema reverse --help"
     )
@@ -167,7 +167,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `command: reverse, short | modifier: padded, short`() {
+  @Test fun `command - reverse - short WITH modifier - padded - short`() {
     val result = ActionResolver.resolve(
       "tema r -p 4 * abc"
     )
@@ -182,7 +182,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `command: reverse, long | modifier: padded, long`() {
+  @Test fun `command - reverse - long WITH modifier - padded - long`() {
     val result = ActionResolver.resolve(
       "tema reverse --padded 4 * abc"
     )
@@ -197,7 +197,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `command: reverse, long | modifier: padded, long | modifier: help, long`() {
+  @Test fun `command - reverse - long WITH modifier - padded - long WITH modifier - help - long`() {
     val result = ActionResolver.resolve(
       "tema reverse --padded 4 * --help abc"
     )
@@ -259,7 +259,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `no content | no modifiers`() {
+  @Test fun `no content WITH no modifiers`() {
     val result = ActionResolver.resolve(
       "tema reverse"
     )
@@ -273,7 +273,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `invalid modifier args, too few | modifier: padded, long`() {
+  @Test fun `invalid modifier args - too few WITH modifier - padded - long`() {
     val result = ActionResolver.resolve(
       "tema reverse --padded 4 *"
     )
@@ -288,7 +288,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `invalid modifier args, too many | modifier: padded, long`() {
+  @Test fun `invalid modifier args - too many WITH modifier - padded - long`() {
     val result = ActionResolver.resolve(
       "tema reverse --padded 4 * x abc"
     )
@@ -303,7 +303,7 @@ internal class ActionResolverTest {
     )
   }
 
-  @Test fun `invalid modifier args | modifier: padded, long | modifier: help, long`() {
+  @Test fun `invalid modifier args WITH modifier - padded - long WITH modifier - help - long`() {
     val result = ActionResolver.resolve(
       "tema reverse --padded 4 * --help x abc"
     )
