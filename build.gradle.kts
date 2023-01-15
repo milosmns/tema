@@ -11,21 +11,19 @@ import java.nio.file.attribute.PosixFilePermission
 
 buildscript {
   repositories {
-    jcenter()
     mavenCentral()
   }
   dependencies {
-    classpath("joda-time:joda-time:2.10.8")
+    classpath("joda-time:joda-time:2.12.2")
   }
 }
 
 plugins {
-  kotlin("multiplatform") version "1.4.20"
+  kotlin("multiplatform") version "1.8.0"
   id("co.riiid.gradle") version "0.4.2"
 }
 
 repositories {
-  jcenter()
   mavenCentral()
 }
 
@@ -34,9 +32,9 @@ repositories {
 // region Project configuration
 
 object Project {
-  val group = Env.get("PROJECT_GROUP", default = "me.angrybyte.kotlin")
+  val group = Env.get("PROJECT_GROUP", default = "xyz.marinkovic.milos")
   val artifact = Env.get("PROJECT_ARTIFACT", default = "tema")
-  val version = Env.get("PROJECT_VERSION", default = "1.2.0")
+  val version = Env.get("PROJECT_VERSION", default = "2.0.0")
   val author = Env.get("PROJECT_AUTHOR", default = "milosmns")
 
   object Location {
