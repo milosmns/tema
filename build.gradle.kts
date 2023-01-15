@@ -1,4 +1,3 @@
-import Build_gradle.OS.Type.*
 import com.github.breadmoirai.githubreleaseplugin.ChangeLogSupplier
 import java.io.File.separatorChar
 import java.nio.file.Files
@@ -59,9 +58,9 @@ version = Project.version
 kotlin {
 
   when (OS.current) {
-    MAC -> macosX64(Project.Source.NATIVE)
-    LINUX -> linuxX64(Project.Source.NATIVE)
-    WINDOWS -> mingwX64(Project.Source.NATIVE)
+    OS.Type.MAC -> macosX64(Project.Source.NATIVE)
+    OS.Type.LINUX -> linuxX64(Project.Source.NATIVE)
+    OS.Type.WINDOWS -> mingwX64(Project.Source.NATIVE)
   }.apply {
     binaries {
       executable(Project.artifact) {
@@ -108,8 +107,8 @@ tasks {
 
   fun renameBinary() {
     val extension = when (OS.current) {
-      MAC, LINUX -> ".kexe"
-      WINDOWS -> ".exe"
+      OS.Type.MAC, OS.Type.LINUX -> ".kexe"
+      OS.Type.WINDOWS -> ".exe"
     }
 
     // locate the binary
@@ -126,12 +125,12 @@ tasks {
     }
     println("Stripped '$extension' from binary at '${finalFile.absolutePath}'")
 
-    if (OS.current == WINDOWS) return
+    if (OS.current == OS.Type.WINDOWS) return
 
     // make the new binary executable and grant all permissions
     finalFile.setExecutable(true, false)
     Files.setPosixFilePermissions(finalFile.toPath(), PosixFilePermission.values().toSet())
-    println("Updated permissions for '${finalFile}'")
+    println("Updated permissions for '$finalFile'")
   }
 
   val renameBinary by registering {
@@ -190,7 +189,7 @@ githubRelease {
   targetCommitish(commitish)
   prerelease(quality != "GA")
 
-  val maxFetched = 20
+  val maxFetched = 15
   val maxReported = 7
   val bullet = "\n* "
   val changelogConfig = closureOf<ChangeLogSupplier> {
@@ -233,7 +232,7 @@ githubRelease {
     arrayOf(binaryFile)
   )
 
-  println("Configured for upload: '${binaryFile.absolutePath}'")
+  println("Configured '$name' ($tag) for upload: '${binaryFile.absolutePath}'")
 }
 apply(plugin = "com.github.breadmoirai.github-release")
 
@@ -262,9 +261,9 @@ object OS {
 
   val current: Type = System.getProperty("os.name")?.let { hostOs ->
     when {
-      hostOs == "Mac OS X" -> MAC
-      hostOs == "Linux" -> LINUX
-      hostOs.startsWith("Windows") -> WINDOWS
+      hostOs == "Mac OS X" -> Type.MAC
+      hostOs == "Linux" -> Type.LINUX
+      hostOs.startsWith("Windows") -> Type.WINDOWS
       else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
     }
   } ?: throw GradleException("Host OS is unknown")
