@@ -23,7 +23,7 @@ internal class FlipProcessorTest {
     )
   }
 
-  @Test fun `process non empty, no modifiers`() {
+  @Test fun `process non empty - no modifiers`() {
     val modifiers: ModifierValues = emptyMap()
 
     val result = processor.process(modifiers, "test1")
@@ -34,7 +34,7 @@ internal class FlipProcessorTest {
     )
   }
 
-  @Test fun `process non empty, invalid modifier`() {
+  @Test fun `process non empty - invalid modifier`() {
     val modifiers: ModifierValues = linkedMapOf(
       Modifier.HELP to emptyMap(),
     )
@@ -44,7 +44,7 @@ internal class FlipProcessorTest {
     }
   }
 
-  @Test fun `process non empty, invalid argument`() {
+  @Test fun `process non empty - invalid argument`() {
     val modifiers: ModifierValues = linkedMapOf(
       Modifier.PADDED to linkedMapOf(
         Argument.TIMES to "A", // invalid
@@ -57,7 +57,7 @@ internal class FlipProcessorTest {
     }
   }
 
-  @Test fun `process non empty, with padding`() {
+  @Test fun `process non empty - with padding`() {
     val modifiers: ModifierValues = linkedMapOf(
       Modifier.PADDED to linkedMapOf(
         Argument.TIMES to "2",
