@@ -1,11 +1,13 @@
 import Build_gradle.OS.Type.*
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.joda.time.Instant
-import org.joda.time.format.DateTimeFormat
+import com.github.breadmoirai.githubreleaseplugin.ChangeLogSupplier
 import java.io.File.separatorChar
 import java.nio.file.Files
 import java.nio.file.attribute.PosixFilePermission
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
+import org.joda.time.Instant
+import org.joda.time.format.DateTimeFormat
 
 // region Build script setup
 
@@ -14,13 +16,14 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath("joda-time:joda-time:2.12.2")
+    classpath("joda-time:joda-time:2.+")
+    classpath("org.jlleitschuh.gradle:ktlint-gradle:10.+")
   }
 }
 
 plugins {
   kotlin("multiplatform") version "1.8.0"
-  id("co.riiid.gradle") version "0.4.2"
+  id("com.github.breadmoirai.github-release") version "2.+"
 }
 
 repositories {
@@ -156,9 +159,12 @@ tasks {
 
 // region Other plugins
 
-github {
+githubRelease {
   val writeToken = Env.get("GITHUB_TOKEN")
   if (writeToken == Env.INVALID) println("Set 'GITHUB_TOKEN' environment variable to enable GitHub releases")
+
+  val commitish = Env.get("GITHUB_SHA", default = "local")
+
   val platformSuffix = OS.current.name.first().toLowerCase()
   val quality = Env.get("BUILD_QUALITY", default = "Debug")
   val nowTag = DateTimeFormat.forPattern("yyyy_MM_dd_HH_mm_ss")
@@ -172,25 +178,64 @@ github {
     "PR" -> "_pr_$nowTag"
     else -> "_dev_$nowTag"
   }
+  val tag = "v${Project.version}_$platformSuffix$qualitySuffix"
 
-  owner = Project.author
-  repo = Project.artifact
-  token = writeToken
-  tagName = "v${Project.version}_$platformSuffix$qualitySuffix"
-  name = "[${OS.current.longName}] $quality ${Project.version} - $nowName"
-  isPrerelease = quality != "GA"
+  val name = "[${OS.current.longName}] $quality ${Project.version} - $nowName"
+
+  token(writeToken)
+  owner(Project.author)
+  repo(Project.artifact)
+  tagName(tag)
+  releaseName(name)
+  targetCommitish(commitish)
+  prerelease(quality != "GA")
+
+  val maxFetched = 20
+  val maxReported = 7
+  val bullet = "\n* "
+  val changelogConfig = closureOf<ChangeLogSupplier> {
+    currentCommit("HEAD")
+    lastCommit("HEAD~$maxFetched")
+    options("--format=oneline", "--abbrev-commit", "--max-count=$maxFetched")
+  }
+  val ignoredMessagesRegex = setOf(
+    "(?i).*bump.*version.*",
+    "(?i).*increase.*version.*",
+    "(?i).*version.*bump.*",
+    "(?i).*version.*increase.*",
+    "(?i).*merge.*request.*",
+    "(?i).*request.*merge.*",
+  ).map(String::toRegex)
+  val changes = try {
+    changelog(changelogConfig)
+      .call()
+      .trim()
+      .split("\n")
+      .map { it.trim() }
+      .filterNot { ignoredMessagesRegex.any(it::matches) }
+      .take(maxReported)
+  } catch (t: Throwable) {
+    System.err.println("Failed to fetch history")
+    t.printStackTrace(System.err)
+    emptyList()
+  }
+
+  body(
+    when {
+      changes.isNotEmpty() -> "## Latest changes\n${changes.joinToString(separator = bullet, prefix = bullet)}"
+      else -> "See commit history for latest changes."
+    }
+  )
 
   val binaryLocation = "${project.buildDir}${Project.Location.binaryDir}"
   val binaryFile = file("$binaryLocation${Project.artifact}")
-  setAssets(binaryFile.path)
+  releaseAssets(
+    arrayOf(binaryFile)
+  )
 
   println("Configured for upload: '${binaryFile.absolutePath}'")
 }
-
-apply {
-  plugin("co.riiid.gradle")
-}
-
+apply(plugin = "com.github.breadmoirai.github-release")
 // endregion
 
 // region Helpers
@@ -199,7 +244,7 @@ object Env {
   const val INVALID = "<invalid>"
   fun get(
     name: String,
-    default: String = INVALID
+    default: String = INVALID,
   ) = System.getenv(name)
     .takeIf { !it.isNullOrBlank() }
     ?: default
