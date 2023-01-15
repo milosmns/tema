@@ -1,9 +1,8 @@
 ## Text Manipulator (TEMA)
 
-
 #### ⏳ A Kotlin/Native sandbox
 
-![Build Status](https://img.shields.io/github/workflow/status/milosmns/tema/Build%20Release?label=Build&logo=github)
+![Build Status](https://img.shields.io/github/actions/workflow/status/milosmns/tema/build-ga.yml?label=Build&logo=github)
 ![Code Size](https://img.shields.io/github/languages/code-size/milosmns/tema?label=Code%20Size&logo=github&style=flat-square)
 ![License](https://img.shields.io/github/license/milosmns/tema?label=License)
 
@@ -35,7 +34,7 @@ cd tema
 That's pretty much it. Kotlin/Native libs will be pulled, and your tool will be in `build/bin/native/`, built for your OS.
 
 
-### ▶️ Running TEMA
+### ▶️ Running
 
 TEMA can be run from the command line.
 
