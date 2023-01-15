@@ -162,7 +162,7 @@ githubRelease {
   val writeToken = Env.get("GITHUB_TOKEN")
   if (writeToken == Env.INVALID) println("Set 'GITHUB_TOKEN' environment variable to enable GitHub releases")
 
-  val commitish = Env.get("GITHUB_SHA", default = "local")
+  val commitish = Env.get("GITHUB_SHA", default = "master")
 
   val platformSuffix = OS.current.name.first().toLowerCase()
   val quality = Env.get("BUILD_QUALITY", default = "Debug")
