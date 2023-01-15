@@ -236,6 +236,13 @@ githubRelease {
   println("Configured for upload: '${binaryFile.absolutePath}'")
 }
 apply(plugin = "com.github.breadmoirai.github-release")
+
+apply(plugin = "org.jlleitschuh.gradle.ktlint")
+configure<KtlintExtension> {
+  verbose.set(true)
+  // also update in .editorconfig
+  disabledRules.set(setOf("import-ordering", "no-blank-line-before-rbrace"))
+}
 // endregion
 
 // region Helpers
