@@ -21,15 +21,12 @@ internal enum class Argument(
 
   companion object {
 
+    @Suppress("MemberVisibilityCanBePrivate")
     val all = values().asList()
 
+    @Suppress("unused")
     fun firstByName(text: String) = all.firstOrNull { it.longName == text }
 
   }
-
-  data class PaddingArgs(
-    val times: Int,
-    val pad: String,
-  )
 
 }
